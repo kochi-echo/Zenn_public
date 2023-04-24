@@ -395,7 +395,8 @@ puts "(1..3).cover?(2): #{time}s"
 [ruby/string\.c at v3\_2\_1 · ruby/ruby](https://github.com/ruby/ruby/blob/v3_2_1/string.c#LC5104)
 
 ```c
-if (RSTRING_LEN(val) == 0 || RSTRING_LEN(val) > 1)
+if (RSTRING_LEN(beg) == 1 && RSTRING_LEN(end) == 1) {
+            if (RSTRING_LEN(val) == 0 || RSTRING_LEN(val) > 1)
                 return Qfalse;
             else {
                 char b = *bp;
@@ -407,6 +408,7 @@ if (RSTRING_LEN(val) == 0 || RSTRING_LEN(val) > 1)
                     return RBOOL(!RTEST(exclusive) && v == e);
                 }
             }
+        }
 ```
 
 を引用しました。ここから、`(b..d).include?(d)`のような1文字同士の比較の場合、引数を境界との文字のバイトで比較しているように見えます。実際、メソッドをオーバーライドすると境界としか比較をしていませんでした。
