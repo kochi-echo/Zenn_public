@@ -349,7 +349,7 @@ puts "('ab'..'ad').cover?('ac'): #{time}s"
 ('ab'..'ad').cover?('ac'): 1.00000761449337e-06s
 ```
 
-上記より、確かに`include?`の方が遅いと思われます。この原因は前節でも述べたように、`each`で書く要素を比較していることにあると思われます。
+上記より、確かに`include?`の方が遅いと思われます。この原因は前節でも述べたように、`each`で各要素を比較していることにあると思われます。
 ちなみに数値に対して、比較すると以下のようになります。
 
 ```ruby
@@ -385,6 +385,8 @@ puts "(1..3).cover?(2): #{time}s"
 本題とはずれますが、`(b..d).include?(d)`の動作に関して、疑問点があります。
 「文字列比較におけるRange#include?とRange#cover?の動き」の節において、
 
+[ruby/string\.c at v3\_2\_1 · ruby/ruby](https://github.com/ruby/ruby/blob/v3_2_1/string.c#LC5104)
+
 ```c
 if (RSTRING_LEN(val) == 0 || RSTRING_LEN(val) > 1)
                 return Qfalse;
@@ -403,6 +405,8 @@ if (RSTRING_LEN(val) == 0 || RSTRING_LEN(val) > 1)
 を引用しました。ここから、`(b..d).include?(d)`のような1文字同士の比較の場合、引数を境界との文字のバイトで比較しているように見えます。実際、メソッドをオーバーライドすると境界としか比較をしていませんでした。
 
 しかし、ここで述べた処理の下にある`rb_str_upto_eachrb_str_upto_each`関数内でも以下の処理をしています。
+
+[ruby/string\.c at v3\_2\_1 · ruby/ruby](https://github.com/ruby/ruby/blob/v3_2_1/string.c#LC4969)
 
 ```c
 /* single character */
