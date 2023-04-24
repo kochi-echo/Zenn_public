@@ -409,7 +409,7 @@ if (RSTRING_LEN(val) == 0 || RSTRING_LEN(val) > 1)
 
 を引用しました。ここから、`(b..d).include?(d)`のような1文字同士の比較の場合、引数を境界との文字のバイトで比較しているように見えます。実際、メソッドをオーバーライドすると境界としか比較をしていませんでした。
 
-しかし、ここで述べた処理の下にある`rb_str_upto_eachrb_str_upto_each`関数内でも以下の処理をしています。
+しかし、ここで述べた処理の下にある`rb_str_upto_each`関数内でも以下の処理をしています。
 
 [ruby/string\.c at v3\_2\_1 · ruby/ruby](https://github.com/ruby/ruby/blob/v3_2_1/string.c#LC4969)
 
