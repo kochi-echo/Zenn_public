@@ -1,12 +1,17 @@
 ---
-title: "【CRuby】Range#include?とRange#cover?の違い"
+title: "【Ruby】Range#include?とRange#cover?の違い"
 emoji: "😸"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["Ruby","CRuby","include","cover"]
 published: false
 ---
 
-# 【CRuby 3.2】 Range#include? と Range#cover?の違い
+# Range#include? と Range#cover?の違い
+
+## 前提
+
+本記事の内容は'MRI'いわゆる'CRuby'を対象としています。
+また、Rubyのバージョンは3.2です。
 
 ## 概要
 
