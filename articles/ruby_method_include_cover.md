@@ -71,7 +71,7 @@ C言語では、`cover?`の処理の関数`r_cover_p`を呼び出しています
 
 #### 文字列比較について
 
-まず最初に文字列の比較方法について考察します。複数文字の文字列の比較に関しては以下の記事を参考にしました。
+最初に文字列の比較方法について考察します。複数文字の文字列の比較に関しては以下の記事を参考にしました。
 
 [文字列の大小比較をもう少し詳しく調べてみる（チェリー本の補足として） \- Qiita](https://qiita.com/jnchito/items/077f6d541d53152aa680)
 
@@ -153,7 +153,7 @@ module Foo
 end
 
 String.prepend(Foo)
-# Range.prepend(Foo) => 文字列比較の時は必要ない
+# Range.prepend(Foo) => このケースでは、この行が無くても結果が変わらない
 
 puts "include?('ba')?"
 puts ('b'..'d').include?('ba')
@@ -179,7 +179,8 @@ true
 [ruby/string\.c at v3\_2\_1 · ruby/ruby](https://github.com/ruby/ruby/blob/v3_2_1/string.c#LC5104)
 
 ```c
-if (RSTRING_LEN(val) == 0 || RSTRING_LEN(val) > 1)
+if (RSTRING_LEN(beg) == 1 && RSTRING_LEN(end) == 1) {
+            if (RSTRING_LEN(val) == 0 || RSTRING_LEN(val) > 1)
                 return Qfalse;
             else {
                 char b = *bp;
@@ -191,9 +192,10 @@ if (RSTRING_LEN(val) == 0 || RSTRING_LEN(val) > 1)
                     return RBOOL(!RTEST(exclusive) && v == e);
                 }
             }
+        }
 ```
 
-上記の部分で分かる通り、対象範囲が1文字で引数が1文字でない時は問答無用でfalseになるみたいです。
+上記の部分で分かる通り、対象範囲が1文字で引数が1文字でない時は問答無用でfalseになるみたいです。また、引数が1文字の時は、境界との比較をしています。
 範囲が2文字以上の場合は、次章で説明します。
 
 ### Range#include? と Range#cover?の日付の比較について
