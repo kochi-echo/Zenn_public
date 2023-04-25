@@ -325,9 +325,30 @@ true
 2023-04-23 <=> 2023-04-25
 ```
 
-でeachの前後で同じものを比較しているのは、範囲オブジェクトを初期化するタイミングで [ruby/range\.c at v3\_2\_1 · ruby/ruby](https://github.com/ruby/ruby/blob/v3_2_1/range.c#L52) の部分で呼ばれています。
-この処理は範囲オブジェクトとして初期化可能かを判定しています。
-たとえば`Date.today + 1 .. '日付でない文字'`のような範囲オブジェクトを作ると、`Date.today + 1 <=> '日付でない文字'` （Cではrb_funcall(beg, id_cmp, 1, end)）で比較不能のnilが返ります。
+でeachの前後で同じものを比較しているのは、~~範囲オブジェクトを初期化するタイミングで [ruby/range\.c at v3\_2\_1 · ruby/ruby](https://github.com/ruby/ruby/blob/v3_2_1/range.c#L52) の部分で呼ばれています。
+この処理は範囲オブジェクトとして初期化可能かを判定しています。~~
+~~たとえば`Date.today + 1 .. '日付でない文字'`のような範囲オブジェクトを作ると、`Date.today + 1 <=> '日付でない文字'` （Cではrb_funcall(beg, id_cmp, 1, end)）で比較不能のnilが返ります。~~
+
+上記のオーバーライドの`Range.prepend(Foo)`をコメントアウトしても、実行結果に出てくるため、Dateクラスの方に原因がありそうです。一応、Cコードを見ると
+
+[ruby/string\.c at v3\_2\_1 · ruby/ruby](https://github.com/ruby/ruby/blob/v3_2_1/string.c#LC5028)
+
+```c
+/* normal case */
+    n = rb_str_cmp(beg, end);
+    if (n > 0 || (excl && n == 0)) return beg;
+
+    /*略*/
+    while (!rb_str_equal(current, after_end)) {
+        VALUE next = Qnil;
+        if (excl || !rb_str_equal(current, end))
+            next = rb_funcallv(current, succ, 0, 0);
+        /*略*/
+    }
+```
+
+のように、`rb_str_equal`がwhileに入るときに呼ばれ、以降比較対象の始点の更新判定に`rb_str_equal`されるので、このせいで`each`前後で`<=>`しているのではないかと、推測しています。
+もし間違っていたら、ご指摘頂けると幸いです。
 
 ### Range#include? と Range#cover? のベンチマーク結果
 
