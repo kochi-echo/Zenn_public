@@ -99,11 +99,7 @@ rb_str_cmp(VALUE str1, VALUE str2)
     RSTRING_GETMEM(str2, ptr2, len2);
     if (ptr1 == ptr2 || (retval = memcmp(ptr1, ptr2, lesser(len1, len2))) == 0) {
         if (len1 == len2) {
-            if (!rb_str_comparable(str1, str2)) {
-                if (ENCODING_GET(str1) > ENCODING_GET(str2))
-                    return 1;
-                return -1;
-            }
+            /*略*/
             return 0;
         }
         if (len1 > len2) return 1;
