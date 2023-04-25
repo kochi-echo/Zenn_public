@@ -27,15 +27,19 @@ Range#include? と Range#cover? は以下のように、どちらも引数が指
 
 ## 結論
 
+公式ドキュメントでは書かれていなかったため、自分で調べたことを補足していきます。
+
 ### Range#include?
 
-公式ドキュメントに対しては以下のようになっています。
+公式ドキュメント
 
 [Range\#include? \(Ruby 3\.2 リファレンスマニュアル\)](https://docs.ruby-lang.org/ja/latest/method/Range/i/include=3f.html)
 
 > obj が範囲内に含まれている時に true を返します。そうでない場合は、false を返します。
 > <=> メソッドによる演算により範囲内かどうかを判定するには Range#cover? を使用してください。
 > 始端・終端・引数が数値であれば、 Range#cover? と同様の動きをします。
+
+上記に対しての補足は、以下のとおりです。
 
 2文字以上の文字範囲を比較する時、Range#include?はRange#eachを使用して、引数とRangeの各要素を`==`で比較することで、範囲内に要素が存在するかどうか判定します。
 範囲の始点と終点が1文字の時で、引数が1文字なら始点および終点と引数を比較します。引数が1文字でないなら、問答無用でfalseになります。
@@ -45,12 +49,14 @@ Range#include? と Range#cover? は以下のように、どちらも引数が指
 
 ### Range#cover?の考察
 
-公式ドキュメントに対しての考察は以下のようになっています。
+公式ドキュメント
 
 [Range\#cover? \(Ruby 3\.2 リファレンスマニュアル\)](https://docs.ruby-lang.org/ja/latest/method/Range/i/cover=3f.html)
 
 > obj が範囲内に含まれている時に true を返します。
 > Range#include? と異なり <=> メソッドによる演算により範囲内かどうかを判定します。 Range#include? は原則として離散値を扱い、 Range#cover? は連続値を扱います。（数値については、例外として Range#include? も連続的に扱います。）
+
+上記に対しての補足は、以下のとおりです。
 
 引数とRangeの始点および終点を`<=>`で比較して、範囲内にあるかを判定します。そのため、Range#include?よりも処理が早いです。
 
