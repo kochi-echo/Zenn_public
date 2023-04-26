@@ -47,7 +47,7 @@ Range#include? と Range#cover? は以下のように、どちらも引数が指
 
 [ruby/range\.c at v3\_2\_1 · ruby/ruby](https://github.com/ruby/ruby/blob/v3_2_1/range.c#LC1811)
 
-### Range#cover?の考察
+### Range#cover?
 
 公式ドキュメント
 
