@@ -29,3 +29,7 @@ published: false
 
 - [Rubyまとめ](https://zenn.dev/kochi_echo/articles/ruby_note_top)
 - [Ruby学び](https://zenn.dev/kochi_echo/scraps/bf7a9aa9424fb7) ←随時上記にマージ予定
+
+#### コーディング時の注意事項
+
+- [Rubyコーディング時に検討すること](https://zenn.dev/kochi_echo/articles/ruby_howto_writing)
