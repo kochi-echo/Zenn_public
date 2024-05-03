@@ -2,7 +2,7 @@
 title: "技術系リンクまとめ"
 emoji: "📗"
 type: "idea" # tech: 技術記事 / idea: アイデア
-topics: []
+topics: [リンクまとめ]
 published: false
 ---
 
