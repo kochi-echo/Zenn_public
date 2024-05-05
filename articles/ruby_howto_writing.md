@@ -99,9 +99,9 @@ publwished: false
 commitメッセージは以下のフォーマットを使用
 
 ```markdown
-変更内容：
+追加/変更/削除内容：
 
-変更理由：
+理由：
 ```
 
 参考：[コミットメッセージの書き方\. 適切な情報を残そう \| by risacan \| Medium](https://medium.com/@risacan/%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88%E3%83%A1%E3%83%83%E3%82%BB%E3%83%BC%E3%82%B8%E3%81%AE%E6%9B%B8%E3%81%8D%E6%96%B9-64aeadd92057)
